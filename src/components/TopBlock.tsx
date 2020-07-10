@@ -3,11 +3,11 @@ import { StyleSheet, Text, View, TextInput, Button } from "react-native";
 
 interface TopBlockProps {
   insertFunc: (value: number) => void;
+  deleteFunc: (value: number) => void;
 }
 
-const TopBlock = ({ insertFunc }: TopBlockProps) => {
+const TopBlock = ({ insertFunc, deleteFunc }: TopBlockProps) => {
   const [value, setValue] = useState("");
-
   return (
     <View style={styles.container}>
       <View style={styles.controls}>
@@ -17,6 +17,7 @@ const TopBlock = ({ insertFunc }: TopBlockProps) => {
           value={value}
         />
         <Button title="Insert" onPress={() => insertFunc(+value)}></Button>
+        <Button title="Delete" onPress={() => deleteFunc(+value)}></Button>
       </View>
     </View>
   );

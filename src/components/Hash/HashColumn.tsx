@@ -1,32 +1,35 @@
 import React, { useEffect } from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import { Animated, StyleSheet } from "react-native";
 
 import HashCell from "./HashCell";
 
 interface HashColumnProps {
   index: number;
   values: number[];
+  isBlinking?: boolean;
 }
 
-const HashColumn = ({ index, values }: HashColumnProps) => {
+const HashColumn = ({ index, values, isBlinking }: HashColumnProps) => {
   return (
-    <View style={styles.wrapper}>
-      <HashCell value={index}></HashCell>
+    <Animated.View style={styles.wrapper}>
+      <HashCell value={index} isBlinking={isBlinking}></HashCell>
       {values.map((value, i) => {
         return (
           <HashCell
-            key={`${value}_${i * Math.random()}`}
+            key={`${value}_${i}`}
             value={value}
+            isBlinking={false}
           ></HashCell>
         );
       })}
-    </View>
+    </Animated.View>
   );
 };
 
 const styles = StyleSheet.create({
   wrapper: {
     flexDirection: "column-reverse",
+    //paddingTop: 100,
   },
 });
 
