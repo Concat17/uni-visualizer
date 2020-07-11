@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { StyleSheet, Text, Animated } from "react-native";
 
 import { AnimationContainer } from "../../containers/Animation";
+import { HashContainer } from "../../containers/HashContainer";
 
 interface HashProps {
   value: number;
@@ -31,6 +32,10 @@ const HashCell = ({ value, isBlinking }: HashProps) => {
       },
     ],
   };
+  // useEffect(()=>{
+  //   if(value === foundCell)}
+
+  // })
 
   return (
     <Animated.View
@@ -40,7 +45,7 @@ const HashCell = ({ value, isBlinking }: HashProps) => {
           : [styles.wrapper, moveAnime]
       }
     >
-      <Text>{value}</Text>
+      <Text style={styles.text}>{value}</Text>
     </Animated.View>
   );
 };
@@ -53,8 +58,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderColor: "#000000",
     borderWidth: 0.5,
-    backgroundColor: "#f42345",
+    backgroundColor: "#5176b0",
     opacity: 1,
+  },
+  text: {
+    color: "#ffffff",
   },
 });
 

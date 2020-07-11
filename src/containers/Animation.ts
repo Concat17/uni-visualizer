@@ -8,22 +8,24 @@ export const AnimationContainer = createContainer(() => {
     new Animated.Value(1)
   );
 
+  const [duration, setDuration] = useState(500);
+
   const handleBlinkingAnimation = () => {
     Animated.loop(
       Animated.sequence([
         Animated.timing(blinkingAnimation, {
           toValue: 0,
-          duration: 1000,
+          duration: duration,
           useNativeDriver: false,
         }),
         Animated.timing(blinkingAnimation, {
           toValue: 1,
-          duration: 1000,
+          duration: duration,
           useNativeDriver: false,
         }),
       ]),
-      { iterations: 4 }
+      { iterations: 2 }
     ).start();
   };
-  return { blinkingAnimation, handleBlinkingAnimation };
+  return { blinkingAnimation, handleBlinkingAnimation, duration };
 });

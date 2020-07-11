@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { Animated, StyleSheet } from "react-native";
 
+import { HashContainer } from "../../containers/HashContainer";
+
 import HashCell from "./HashCell";
 
 interface HashColumnProps {
@@ -10,6 +12,15 @@ interface HashColumnProps {
 }
 
 const HashColumn = ({ index, values, isBlinking }: HashColumnProps) => {
+  const { foundCell, setFoundCell } = HashContainer.useContainer();
+  function blinckingCell(value: number) {
+    if (value === foundCell) {
+      setFoundCell(null);
+      return true;
+    }
+    return false;
+  }
+
   return (
     <Animated.View style={styles.wrapper}>
       <HashCell value={index} isBlinking={isBlinking}></HashCell>
@@ -18,7 +29,7 @@ const HashColumn = ({ index, values, isBlinking }: HashColumnProps) => {
           <HashCell
             key={`${value}_${i}`}
             value={value}
-            isBlinking={false}
+            isBlinking={blinckingCell(value)}
           ></HashCell>
         );
       })}

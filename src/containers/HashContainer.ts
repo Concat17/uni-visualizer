@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { createContainer } from "unstated-next";
 
 export const HashContainer = createContainer(() => {
-  const columnCount = 2;
+  const columnCount = 10;
   const hashFunction = (val: number) => val % columnCount;
 
   const [hash, setHash] = useState(initHash());
   const [history, setHistory] = useState<Array<[string, number]>>([]);
+  const [foundCell, setFoundCell] = useState<number | null>(null);
 
   function initHash() {
     const hash: number[][] = [];
@@ -58,5 +59,7 @@ export const HashContainer = createContainer(() => {
     columnCount,
     history,
     setHistory,
+    foundCell,
+    setFoundCell,
   };
 });
