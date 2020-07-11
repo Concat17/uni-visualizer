@@ -27,5 +27,5 @@ export const AnimationContainer = createContainer(() => {
       { iterations: 2 }
     ).start();
   };
-  return { blinkingAnimation, handleBlinkingAnimation, duration };
+  return { blinkingAnimation, handleBlinkingAnimation, duration, setDuration };
 });

@@ -3,7 +3,7 @@ import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-import { AnimationContainer } from "../../containers/Animation";
+import { AnimationContainer } from "../../containers/AnimationContainer";
 import { HashContainer } from "../../containers/HashContainer";
 
 import TopBlock from "../TopBlock";
@@ -22,7 +22,6 @@ const HashScreen = () => {
   } = HashContainer.useContainer();
 
   const {
-    blinkingAnimation,
     handleBlinkingAnimation,
     duration,
   } = AnimationContainer.useContainer();
@@ -42,6 +41,23 @@ const HashScreen = () => {
     changeScreenOrientation();
   });
 
+  function playAnimation(
+    value: number,
+    expresstion: string,
+    func: (value: number) => void
+  ) {
+    const col = value % columnCount;
+    setExpression(expresstion);
+    setTimeout(() => {
+      handleBlinkingAnimation();
+      setBlinkingCol(col);
+      setTimeout(() => {
+        func(value);
+        setExpression("");
+      }, duration * 4);
+    }, duration);
+  }
+
   function handleInsert(value: number) {
     const col = value % columnCount;
     const newExpression = `Inserting element: ${value}    ${value} % ${columnCount} = ${col}`;
@@ -52,15 +68,7 @@ const HashScreen = () => {
         setAnimationStep(1);
       }
     } else {
-      setExpression(newExpression);
-      setTimeout(() => {
-        handleBlinkingAnimation();
-        setBlinkingCol(col);
-        setTimeout(() => {
-          insertInHash(value);
-          setExpression("");
-        }, duration * 4);
-      }, duration);
+      playAnimation(value, newExpression, insertInHash);
     }
   }
 
@@ -74,31 +82,14 @@ const HashScreen = () => {
         setAnimationStep(1);
       }
     } else {
-      setExpression(newExpression);
-      setTimeout(() => {
-        handleBlinkingAnimation();
-        setBlinkingCol(col);
-        setTimeout(() => {
-          deleteFromHash(value);
-          setExpression("");
-        }, duration * 4);
-      }, duration);
+      playAnimation(value, newExpression, deleteFromHash);
     }
   }
 
   function handleFind(value: number) {
     const col = value % columnCount;
     const newExpression = `Finding element: ${value}    ${value} % ${columnCount} = ${col}`;
-    //setHistory([...history, ["delete", value]]);
-    setExpression(newExpression);
-    setTimeout(() => {
-      handleBlinkingAnimation();
-      setBlinkingCol(col);
-      setTimeout(() => {
-        setFoundCell(value);
-        setExpression("");
-      }, duration * 4);
-    }, duration);
+    playAnimation(value, newExpression, setFoundCell);
   }
 
   function stepForward() {
@@ -124,43 +115,35 @@ const HashScreen = () => {
       }
     }
   }
-
+  function stepSwitch(
+    lastValue: number,
+    func: (value: number) => void,
+    expression: string
+  ) {
+    if (animationStep === 0) {
+      func(lastValue);
+      setAnimationStep(2);
+    } else if (animationStep === 2) {
+      const col = lastValue % columnCount;
+      setExpression(expression);
+      handleBlinkingAnimation();
+      setBlinkingCol(col);
+      setAnimationStep(1);
+    } else if (animationStep === 1) {
+      setExpression("");
+      setHistory(history.slice(0, -1));
+      setAnimationStep(0);
+    }
+  }
   function stepBack() {
     const [action, lastValue] = history[history.length - 1];
+    const col = lastValue % columnCount;
     if (action === "insert") {
-      if (animationStep === 0) {
-        deleteFromHash(lastValue);
-        setAnimationStep(2);
-      } else if (animationStep === 2) {
-        const col = lastValue % columnCount;
-        setExpression(
-          `Inserting element: ${lastValue}    ${lastValue} % ${columnCount} = ${col}`
-        );
-        handleBlinkingAnimation();
-        setBlinkingCol(col);
-        setAnimationStep(1);
-      } else if (animationStep === 1) {
-        setExpression("");
-        setHistory(history.slice(0, -1));
-        setAnimationStep(0);
-      }
+      const expresstion = `Inserting element: ${lastValue}    ${lastValue} % ${columnCount} = ${col}`;
+      stepSwitch(lastValue, deleteFromHash, expresstion);
     } else if (action === "delete") {
-      if (animationStep === 0) {
-        insertInHash(lastValue);
-        setAnimationStep(2);
-      } else if (animationStep === 2) {
-        const col = lastValue % columnCount;
-        setExpression(
-          `Delete element: ${lastValue}    ${lastValue} % ${columnCount} = ${col}`
-        );
-        handleBlinkingAnimation();
-        setBlinkingCol(col);
-        setAnimationStep(1);
-      } else if (animationStep === 1) {
-        setExpression("");
-        setHistory(history.slice(0, -1));
-        setAnimationStep(0);
-      }
+      const expresstion = `Delete element: ${lastValue}    ${lastValue} % ${columnCount} = ${col}`;
+      stepSwitch(lastValue, insertInHash, expresstion);
     }
   }
 

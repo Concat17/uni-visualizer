@@ -1,8 +1,8 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View, StatusBar as St } from "react-native";
+import { StyleSheet, View, StatusBar as St } from "react-native";
 
-import { AnimationContainer } from "./src/containers/Animation";
+import { AnimationContainer } from "./src/containers/AnimationContainer";
 import { HashContainer } from "./src/containers/HashContainer";
 
 import HashScreen from "./src/components/Hash/HashScreen";

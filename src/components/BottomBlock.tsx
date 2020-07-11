@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, TextInput, Button } from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
 import Slider from "@react-native-community/slider";
 
+import { AnimationContainer } from "../containers/AnimationContainer";
+
 interface BottomBlockProps {
   skipBackDisabled: boolean;
   skipBackFunc: () => void;
@@ -28,14 +30,11 @@ const BottomBlock = ({
   skipForwardDisabled,
   skipForwardFunc,
 }: BottomBlockProps) => {
-  const [value, setValue] = useState("");
+  const { setDuration } = AnimationContainer.useContainer();
+
   return (
     <View style={styles.container}>
       <View style={styles.controls}>
-        {/* <Icon.Button name="facebook" onPress={() => {}}>
-          Login with Facebook
-        </Icon.Button> */}
-        {/* banckward */}
         <Icon.Button
           name="banckward"
           disabled={skipBackDisabled}
@@ -57,9 +56,10 @@ const BottomBlock = ({
           onPress={stepBackFunc}
         ></Icon.Button>
         <Slider
+          onValueChange={(value) => setDuration(value)}
           style={{ width: 200, height: 40 }}
-          minimumValue={0}
-          maximumValue={1}
+          minimumValue={1000}
+          maximumValue={100}
           minimumTrackTintColor="#11FFFF"
           maximumTrackTintColor="#000000"
         />
@@ -88,27 +88,10 @@ const BottomBlock = ({
           }
           onPress={skipForwardFunc}
         ></Icon.Button>
-        {/* <Button title="SkipBack" onPress={() => {}}></Button> */}
-        {/* <Button
-          title="StepBack"
-          disabled={stepBackDisabled}
-          onPress={stepBackFunc}
-        ></Button> */}
-        {/* <Button
-          title={isPaused ? "Play" : "Pause"}
-          onPress={pauseFunc}
-        ></Button> */}
-        {/* <Button
-          title="StepForward"
-          disabled={stepForwardDisabled}
-          onPress={stepForwardFunc}
-        ></Button>
-        <Button title="SkipForward" disabled onPress={() => {}}></Button> */}
       </View>
     </View>
   );
 };
-const disabled = { backgroundColor: "#abc4eb" };
 
 const styles = StyleSheet.create({
   container: {

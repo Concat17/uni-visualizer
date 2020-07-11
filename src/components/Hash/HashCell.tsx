@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { StyleSheet, Text, Animated } from "react-native";
 
-import { AnimationContainer } from "../../containers/Animation";
+import { AnimationContainer } from "../../containers/AnimationContainer";
 import { HashContainer } from "../../containers/HashContainer";
 
 interface HashProps {
@@ -12,14 +12,6 @@ interface HashProps {
 const HashCell = ({ value, isBlinking }: HashProps) => {
   const { blinkingAnimation } = AnimationContainer.useContainer();
   const [moveAnim, setMoveAnim] = useState(new Animated.Value(0));
-
-  const handleMoveAnimation = useCallback(() => {
-    Animated.timing(moveAnim, {
-      toValue: 0,
-      duration: 1000,
-      useNativeDriver: true,
-    }).start();
-  }, [moveAnim]);
 
   const animatedStyle = {
     opacity: blinkingAnimation,
@@ -32,11 +24,6 @@ const HashCell = ({ value, isBlinking }: HashProps) => {
       },
     ],
   };
-  // useEffect(()=>{
-  //   if(value === foundCell)}
-
-  // })
-
   return (
     <Animated.View
       style={

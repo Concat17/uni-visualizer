@@ -38,8 +38,6 @@ const TopBlock = ({ insertFunc, findFunc, deleteFunc }: TopBlockProps) => {
           name="close"
           onPress={() => deleteFunc(+value)}
         ></Icon.Button>
-        {/* <Button title="Insert" onPress={() => insertFunc(+value)}></Button> */}
-        {/* <Button title="Delete" onPress={() => deleteFunc(+value)}></Button> */}
       </View>
     </View>
   );

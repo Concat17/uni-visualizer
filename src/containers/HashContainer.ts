@@ -29,11 +29,9 @@ export const HashContainer = createContainer(() => {
       newHash.push(arr);
     }
     setHash(newHash);
-    console.log(newHash);
   }
 
   function deleteFromHash(value: number) {
-    const ind = hashFunction(value);
     const newHash = [];
     let isDeleted = false;
     for (let i = 0; i < columnCount; i++) {
@@ -48,7 +46,6 @@ export const HashContainer = createContainer(() => {
 
       newHash.push(arr);
     }
-    console.log(newHash);
     setHash(newHash);
   }
 

@@ -40,7 +40,6 @@ const HashColumn = ({ index, values, isBlinking }: HashColumnProps) => {
 const styles = StyleSheet.create({
   wrapper: {
     flexDirection: "column-reverse",
-    //paddingTop: 100,
   },
 });
 
